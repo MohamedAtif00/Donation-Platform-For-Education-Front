@@ -1,0 +1,37 @@
+<div class="container d-flex  flex-column  align-items-center ">
+    <h2>Material Creation</h2>
+    <form class="w-75 " [formGroup]="formCreation" (ngSubmit)="submitForm($event)">
+        <div class="mb-3" >
+          <label for="exampleInputEmail1" class="form-label">Material Name</label>
+          <input type="text" formControlName="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+            <textarea class="form-control" formControlName="description" id="exampleFormControlTextarea1" style="resize: none;"  rows="3"></textarea>
+        </div>
+
+        <select class="form-select my-3 " aria-label="Default select example " (change)="selected($event)">
+            <option selected>Select Material Type</option>
+            <option [value]="item.id.value" *ngFor="let item of materialTypes">{{item.name}}</option>
+          </select>
+        
+        <div class="input-group mb-3" *ngIf="pdf">
+            <input type="file" formControlName="pdfFile" (change)="FileSelected($event)" class="form-control" id="inputGroupFile02">
+            <label class="input-group-text" for="inputGroupFile02" accept=".pdf">pdf File</label>
+          </div>
+
+          <div class="input-group mb-3" *ngIf="selectValue && !pdf">
+            <input type="number" formControlName="quantity" class="form-control" id="inputGroupFile02">
+            <label class="input-group-text" for="inputGroupFile02">Quantity</label>
+          </div>
+
+          <div class="input-group mb-3">
+            <input type="file" formControlName="imageFile" class="form-control" (change)="imageSelected($event)" id="inputGroupFile02">
+            <label class="input-group-text" for="inputGroupFile02" >Material Image</label>
+          </div>
+          
+        <button type="submit"  class="btn btn-primary" >Create</button>   
+    </form>
+
+</div>
