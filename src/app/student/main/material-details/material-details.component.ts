@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatreialService } from '../../Service/material.service';
 import { MaterialModel } from '../../Model/material.model';
+import { RequestService } from '../../Service/request.service';
+import { AuthService } from 'src/app/authentication/Service/auth.service';
 
 interface MatirialView{
   id:string,
@@ -25,8 +27,9 @@ export class MaterialDetailsComponent implements OnInit{
 
   material!:MaterialModel;
   materialView!:MatirialView;
+  isPdf!:boolean;
 
-  constructor(private route:ActivatedRoute,private materialServ:MatreialService){}
+  constructor(private route:ActivatedRoute,private router:Router,private authServ:AuthService,private materialServ:MatreialService,private requestServ:RequestService){}
 
 
   ngOnInit(): void {
@@ -54,10 +57,20 @@ export class MaterialDetailsComponent implements OnInit{
                             donationHistory:{day:dateTime.getDay(),month:dateTime.getMonth(),year:dateTime.getFullYear()},
                             image:this.ConvertToUrl(dt.image,'image/jpeg'),
                             byte:''}
+
+        this.materialServ.GetSingleType(dt.itemTypeId.value).subscribe(data=>{
+          if(data.value.name.includes('pdf'))
+          {
+            this.isPdf = true;
+          }else{
+            this.isPdf = false;
+          }
+        })
       })
 
 
-    })
+      })
+
   }
 
 
@@ -100,7 +113,23 @@ export class MaterialDetailsComponent implements OnInit{
   //   return typeName;
   // }
 
+  OrderCreated()
+  {
+    if(!this.authServ.user || this.authServ.user.role != 'Student') 
+    {
+      this.router.navigate(['auth','login']);
+      return
+    }
 
+    if(this.authServ.user && this.authServ.user.role == 'Student')
+    {
+      this.requestServ.CreateRequest({userId:this.authServ.user.id,itemId:this.materialView.id}).subscribe(data=>{
+        console.log(data);
+        
+      });
+
+    }
+  }
 
 
 }

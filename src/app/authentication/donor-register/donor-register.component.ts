@@ -62,7 +62,7 @@ export class DonorRegisterComponent implements OnInit{
 
   if(this.registerForm.valid)
   {
-    this.authServ.StudentRegister(info).subscribe((data)=>{
+    this.authServ.DonorRegister(info).subscribe((data)=>{
 
       console.log(data);
 

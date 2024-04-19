@@ -7,6 +7,7 @@ import { DonorListComponent } from './main/donor-list/donor-list.component';
 import { MaterialListComponent } from './main/material-list/material-list.component';
 import { RouterModule } from '@angular/router';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
+import { RequestListComponent } from './main/request-list/request-list.component';
 
 
 
@@ -16,7 +17,8 @@ import { AdminRoutingModule } from './admin-routing/admin-routing.module';
     MainComponent,
     StudentListComponent,
     DonorListComponent,
-    MaterialListComponent
+    MaterialListComponent,
+    RequestListComponent
   ],
   imports: [
     CommonModule,

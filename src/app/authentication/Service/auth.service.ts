@@ -6,7 +6,8 @@ import { DonorLoginResponse, StudentLoginResponse } from "../Model/response/logi
 import { AllowAccessResponse } from "../Model/response/allow-access.response";
 import { DonorRegister, StudentRegister } from "../Model/request/register.request";
 import { StudentRegisterResponse } from "../Model/response/register.response";
-import { map } from "rxjs";
+import { Observable, map } from "rxjs";
+import { GeneralResponse, classGeneral } from "src/app/share/Model/general.response";
 
 @Injectable({
     providedIn:'root'
@@ -47,11 +48,19 @@ export class AuthService{
 
     StudentLogin(studentInfo:StudentLoginRequest)
     {
-        return this.http.post<StudentLoginResponse>(this.postStudentLogin,studentInfo).pipe(map(data=>{
-            this.user = {id:data.value.userId,username:data.value.username,email:'',role:data.value.role,token:data.value.jwtToken}
-            localStorage.setItem('User_Token_Key',data.value.jwtToken)
-            this.token = this.GetToken() 
-            return data
+        return this.http.post<StudentLoginResponse|classGeneral>(this.postStudentLogin,studentInfo).pipe(map(data=>{
+            if(data instanceof classGeneral) console.log(data);
+
+            if(data.value)
+            {
+                this.user = {id:data.value.userId,username:data.value.username,email:'',role:data.value.role,token:data.value.jwtToken}
+                localStorage.setItem('User_Token_Key',data.value.jwtToken)
+                this.token =this.GetToken()
+            }
+            if(!(data instanceof classGeneral))
+                return data
+
+                return data
         }));
     }
 
@@ -68,16 +77,29 @@ export class AuthService{
 
     DonorLogin(donorInfo:DonorLoginRequest)
     {
-        return this.http.post<DonorLoginResponse>(this.postDonorLogin,donorInfo).pipe(map(data=>{
-            this.user = {id:data.value.userId,username:data.value.username,email:'',role:data.value.role,token:data.value.jwtToken}
-            localStorage.setItem('User_Token_Key',data.value.jwtToken)
-            this.token =this.GetToken()
-            return data
-        }));
+        return this.http.post<DonorLoginResponse|classGeneral>(this.postDonorLogin,donorInfo)
+        .pipe(
+            map((data:DonorLoginResponse) =>{
+            if(data instanceof classGeneral) console.log(data);
+            
+
+
+            if(data.value)
+            {
+                this.user = {id:data.value.userId,username:data.value.username,email:'',role:data.value.role,token:data.value.jwtToken}
+                localStorage.setItem('User_Token_Key',data.value.jwtToken)
+                this.token =this.GetToken()
+            }
+            if(!(data instanceof classGeneral))
+                return data
+
+                return data
+        })
+        );
     }
     DonorRegister(DonroInfo:DonorRegister)
     {
-        return this.http.post<StudentRegisterResponse>(this.postStudentRegister,DonroInfo)
+        return this.http.post<StudentRegisterResponse>(this.postDonorRegister,DonroInfo)
         .pipe(map(data=>{
             this.user = {id:data.value.userId,username:data.value.username,email:DonroInfo.email,role:data.value.role,token:data.value.jwtToken}
             localStorage.setItem('User_Token_Key',data.value.jwtToken)

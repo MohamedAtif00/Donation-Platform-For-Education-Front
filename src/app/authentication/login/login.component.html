@@ -8,7 +8,9 @@
             <div class="d-flex justify-content-center py-4">
                 <span class="d-none d-lg-block fs-1 " style="color: blue;cursor: pointer;" [routerLink]="['']">Zaker</span>
             </div><!-- End Logo -->
-
+            <div *ngIf="error" class="alert alert-danger" role="alert">
+              {{error}}
+            </div>
             <div class="card mb-3">
 
               <div class="card-body">

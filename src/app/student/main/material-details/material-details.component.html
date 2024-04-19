@@ -20,7 +20,7 @@
   </div><!-- End Page Title -->
 
   <!-- Courses Course Details Section -->
-  <section id="courses-course-details" class="courses-course-details section">
+  <section id="courses-course-details" class="courses-course-details section" *ngIf="materialView">
 
     <div class="container" data-aos="fade-up">
 
@@ -53,7 +53,12 @@
             <h5>Donation History</h5>
             <p>{{materialView.donationHistory.year+'/'+materialView.donationHistory.month+'/'+materialView.donationHistory.day}}</p>
           </div>
-
+          <div *ngIf="isPdf" class="course-info d-flex justify-content-between align-items-center">
+            <button class="btn btn-primary w-100 ">Download PDF</button>
+          </div>
+          <div *ngIf="!isPdf" class="course-info d-flex justify-content-between align-items-center">
+            <button class="btn btn-primary w-100 " (click)="OrderCreated()">Order</button>
+          </div>
         </div>
       </div>
 
@@ -62,7 +67,7 @@
   </section><!-- /Courses Course Details Section -->
 
   <!-- Tabs Section -->
-  <section id="tabs" class="tabs section">
+  <!-- <section id="tabs" class="tabs section">
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -154,4 +159,5 @@
 
     </div>
 
-  </section><!-- /Tabs Section -->
+  </section> -->
+  <!-- /Tabs Section -->

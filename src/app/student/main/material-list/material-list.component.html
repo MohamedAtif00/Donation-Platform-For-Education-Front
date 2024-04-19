@@ -29,8 +29,8 @@
 
         <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-3 "  style="cursor: pointer;" [routerLink]="['/material-details',item.id]" data-aos="zoom-in" data-aos-delay="100" *ngFor="let item of materialsView">
           <div class="course-item">
-            <img *ngIf="item.image" style="max-height: 400px;max-width: 400px;" [src]="item.image"  alt="...">
-            <img *ngIf="!item.image" style="max-height: 400px;max-width: 400px;" src="https://placehold.co/500x500"   alt="...">
+            <img *ngIf="item.image" style="height: 400px;max-height: 400px;max-width: 400px;" [src]="item.image"  alt="...">
+            <img *ngIf="!item.image" style="height: 400px; max-height: 400px;max-width: 400px;" src="https://placehold.co/500x500"   alt="...">
             <div class="course-content">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <p class="category">{{item.itemType}}</p>
@@ -41,7 +41,7 @@
               <p class="description">{{item.description}}</p>
               <div class="trainer d-flex justify-content-between align-items-center">
                 <div class="trainer-profile d-flex align-items-center">
-                  <a href="" class="trainer-link">Antonio</a>
+                  <!-- <a href="" class="trainer-link">Antonio</a> -->
                 </div>
                 <div class="trainer-rank d-flex align-items-center">
                   <i class="bi bi-person user-icon"></i>&nbsp;50

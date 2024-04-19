@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, AsyncValidatorFn, ValidationErrors 
 import { Router } from '@angular/router';
 import { Observable, map, catchError, of } from 'rxjs';
 import { AuthService } from '../Service/auth.service';
+import { classGeneral } from 'src/app/share/Model/general.response';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { AuthService } from '../Service/auth.service';
 export class LoginComponent {
 
   loginForm!:FormGroup;
+  error!:Error;
 
   constructor(private authServ:AuthService,private router:Router){}
 
@@ -59,9 +61,18 @@ export class LoginComponent {
 
   if(this.loginForm.valid)
   {
-    this.authServ.StudentLogin(info).subscribe((data)=>{
+    this.authServ.StudentLogin(info).subscribe((data) => {
+      if((<classGeneral>data).errors)
+      {
+        console.log((<classGeneral>data).errors[0]);
+        this.error = (<unknown>(<classGeneral>data).errors[0]) as Error
+      }else
+      {
+        console.log('hello');
+        
+      }
 
-      console.log(data);
+
 
       if(data.value) 
         this.router.navigate(['']);

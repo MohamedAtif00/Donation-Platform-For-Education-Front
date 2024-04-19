@@ -49,20 +49,20 @@ export class MaterialCreationComponent {
   }
 
 
-      CheckUsername():AsyncValidatorFn
-      {
-        return (AbstractControl):Observable<ValidationErrors|null> =>{
-          let username = this.formCreation.controls['username'].value;
-          return this.authServ.CheckUsrname(username).pipe(
-            map((data)=>{
-              console.log(data);
+    //   CheckUsername():AsyncValidatorFn
+    //   {
+    //     return (AbstractControl):Observable<ValidationErrors|null> =>{
+    //       let username = this.formCreation.controls['username'].value;
+    //       return this.authServ.CheckUsrname(username).pipe(
+    //         map((data)=>{
+    //           console.log(data);
               
-              return data?{nameTaken:true}: null
-            }),
-            catchError(() => of(null))
-          );
-        }
-    }
+    //           return data?{nameTaken:true}: null
+    //         }),
+    //         catchError(() => of(null))
+    //       );
+    //     }
+    // }
 
 
     // ----------------------------------------------------------------
@@ -96,7 +96,7 @@ export class MaterialCreationComponent {
 
     imageSelected(eent:any){
       this.image = eent.target.files[0];
-      console.log(this.info.image);
+      //console.log(this.info.image);
     }
 
     submitForm(event:any) {
@@ -111,7 +111,7 @@ export class MaterialCreationComponent {
         itemTypeId:this.selectValue,
         name:this.formCreation.controls['name'].value,
         description:this.formCreation.controls['description'].value,
-        file:this.pdfFile,
+        file:this.pdfFile??  null,
         quantity:this.formCreation.controls['quantity'].value,
         image:this.image
       }
@@ -123,8 +123,8 @@ export class MaterialCreationComponent {
       formInfo.append('name', this.info.name);
       formInfo.append('description', this.info.description);
 
-
-      formInfo.append('file', this.pdfFile,this.pdfFile.name);
+      if(this.pdfFile)
+        formInfo.append('file', this.pdfFile,this.pdfFile.name);
 
       formInfo.append('quantity', this.info.quantity.toString()); 
       formInfo.append('image', this.image,this.image.name); 
@@ -135,8 +135,8 @@ export class MaterialCreationComponent {
 
           console.log(data);
 
-          // if(data.value) 
-          //   this.router.navigate(['']);
+          if(data.value) 
+            this.router.navigate(['']);
 
         });
       } 
