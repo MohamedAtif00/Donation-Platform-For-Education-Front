@@ -3,7 +3,7 @@
       <div class="container">
         <div class="row d-flex justify-content-center text-center">
           <div class="col-lg-8">
-            <h1>Course Details</h1>
+            <h1>Material Details</h1>
             <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
           </div>
         </div>
@@ -12,8 +12,8 @@
     <nav class="breadcrumbs">
       <div class="container">
         <ol>
-          <li><a href="index.html">Home</a></li>
-          <li class="current">Course Details</li>
+          <li><a [routerLink]="['']">Home</a></li>
+          <li class="current">Material Details</li>
         </ol>
       </div>
     </nav>
@@ -36,7 +36,7 @@
 
           <div class="course-info d-flex justify-content-between align-items-center">
             <h5>Donor</h5>
-            <p><a href="#">Walter White</a></p>
+            <p>{{materialView.donorName}}</p>
           </div>
 
           <div class="course-info d-flex justify-content-between align-items-center">
@@ -44,20 +44,20 @@
             <p>{{materialView.quantity}}</p>
           </div>
 
-          <div class="course-info d-flex justify-content-between align-items-center">
+          <!-- <div class="course-info d-flex justify-content-between align-items-center">
             <h5>Available Seats</h5>
             <p>30</p>
-          </div>
+          </div> -->
 
           <div class="course-info d-flex justify-content-between align-items-center">
             <h5>Donation History</h5>
             <p>{{materialView.donationHistory.year+'/'+materialView.donationHistory.month+'/'+materialView.donationHistory.day}}</p>
           </div>
           <div *ngIf="isPdf" class="course-info d-flex justify-content-between align-items-center">
-            <button class="btn btn-primary w-100 ">Download PDF</button>
+            <button class="btn btn-primary w-100 " (click)="DownloadPDF()">Download PDF</button>
           </div>
           <div *ngIf="!isPdf" class="course-info d-flex justify-content-between align-items-center">
-            <button class="btn btn-primary w-100 " (click)="OrderCreated()">Order</button>
+            <button class="btn btn-primary w-100 " (click)="OrderCreated()">{{requestExist?'Order done':'Order'}}</button>
           </div>
         </div>
       </div>

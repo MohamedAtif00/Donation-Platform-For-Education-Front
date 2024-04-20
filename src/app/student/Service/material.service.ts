@@ -17,6 +17,8 @@ export class MatreialService{
     getSingleType:string = 'https://localhost:7081/api/ItemType/GetSingleItemType/'
     getMaterials:string  ='https://localhost:7081/api/Item/GetAll'; 
     getSingleMaterial:string = 'https://localhost:7081/api/Item/GetSingleItem/';
+    getMaterialsForType:string = 'https://localhost:7081/api/Item/GetItemsForType/'
+    dwonloadFile:string = 'https://localhost:7081/api/Item/GetPdf/';
 
     constructor(private http:HttpClient){}
 
@@ -41,8 +43,18 @@ export class MatreialService{
         return this.http.get<GetAllMaterialsResponse>(this.getMaterials);
     }
 
+    GetMaterialsForType(id:string)
+    {
+        return this.http.get<GetAllMaterialsResponse>(this.getMaterialsForType+id);
+    }
+
     GetSingleMaterial(id:string){
         return this.http.get<GetSingleMaterialResponse>(this.getSingleMaterial+id);
+    }
+
+    DownloadFile(id:string)
+    {
+        return this.http.get(this.dwonloadFile+id,{responseType:'blob'})
     }
 
 }

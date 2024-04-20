@@ -6,6 +6,7 @@ import { AuthenticationRoutingModule } from './authentication-routing/authentica
 import { DonorLoginComponent } from './donor-login/donor-login.component';
 import { DonorRegisterComponent } from './donor-register/donor-register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RegisterComponent,
     LoginComponent,
     DonorLoginComponent,
-    DonorRegisterComponent
+    DonorRegisterComponent,
+    AdminLoginComponent
   ],
   imports: [
     CommonModule,

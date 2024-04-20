@@ -14,4 +14,6 @@ export class RequestService{
     GetAllRequest(){
         return this.http.get<any>(this.getAllRequest);
     }
+
+    
 }

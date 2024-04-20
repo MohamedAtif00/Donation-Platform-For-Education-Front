@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatreialService } from '../../Service/material.service';
 import { MaterialTypeModel } from '../../Model/material-type.model';
 import { MaterialModel } from '../../Model/material.model';
+import { ActivatedRoute } from '@angular/router';
 
 interface MaterialView{
   id:string,
@@ -25,25 +26,49 @@ export class MaterialListComponent implements OnInit{
   materials!:MaterialModel[];
   materialsView:MaterialView[] = [];
 
-  constructor(private materialServ:MatreialService){}
+  constructor(private materialServ:MatreialService,private route:ActivatedRoute){}
 
 
   ngOnInit(): void {
-    this.materialServ.GetAllMaterialTypes().subscribe(data=>{
-      this.materialsType = data.value;
-      console.log(this.materialsType);
+    let id;
+      id = this.route.snapshot.params['id']
+    
+      console.log(id);
       
-    });
-
-    this.materialServ.GetAllMaterials().subscribe(data=>{
-      this.materials  =data.value
-      console.log(this.materials);
-
-      this.materials.forEach(data=>{
-        this.materialsView.push({id:data.id,itemType:this.GetType(data.itemTypeId),donor:data.donor,name:data.name,description:data.description,quantity:data.quantity,image:data.image?this.ConvertToUrl(data.image.bytes,data.image.contentType):''})
-      })
+      ///////////////////////////////////////
+      this.materialServ.GetAllMaterialTypes().subscribe(data=>{
+        this.materialsType = data.value;
+        console.log(this.materialsType);
+        
+      });
       
-    });
+      if(id == undefined){
+        console.log('not id');
+        
+      this.materialServ.GetAllMaterials().subscribe(data=>{
+        this.materials  =data.value
+        console.log(this.materials);
+  
+        this.materials.forEach(data=>{
+          this.materialsView.push({id:data.id,itemType:this.GetType(data.itemTypeId),donor:data.donor,name:data.name,description:data.description,quantity:data.quantity,image:data.image?this.ConvertToUrl(data.image.bytes,data.image.contentType):''})
+        })
+        
+      });
+      /////////////////////////////////////////
+      }else{
+        console.log('id');
+        
+          this.materialServ.GetMaterialsForType(id).subscribe(data=>{
+            this.materials  =data.value
+            console.log(this.materials);
+      
+            this.materials.forEach(data=>{
+              this.materialsView.push({id:data.id,itemType:this.GetType(data.itemTypeId),donor:data.donor,name:data.name,description:data.description,quantity:data.quantity,image:data.image?this.ConvertToUrl(data.image.bytes,data.image.contentType):''})
+          })
+          })
+      }
+
+
 
   }
 

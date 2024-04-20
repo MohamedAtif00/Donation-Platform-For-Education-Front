@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators, AsyncValidatorFn, ValidationErrors 
 import { Router } from '@angular/router';
 import { Observable, map, catchError, of } from 'rxjs';
 import { AuthService } from '../Service/auth.service';
-import { classGeneral } from 'src/app/share/Model/general.response';
 
 @Component({
   selector: 'app-donor-login',
@@ -62,10 +61,10 @@ export class DonorLoginComponent {
   if (this.loginForm.valid) {
     try{
       this.authServ.DonorLogin(info).subscribe((data) => {
-        if((<classGeneral>data).errors)
+        if((data).errors)
         {
-          console.log((<classGeneral>data).errors[0]);
-          this.error = (<unknown>(<classGeneral>data).errors[0]) as Error
+          console.log((data).errors[0]);
+          this.error = (<unknown>data.errors[0]) as Error
         }else
         {
           console.log('hello');

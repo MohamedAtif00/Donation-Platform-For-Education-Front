@@ -14,6 +14,7 @@ const routes:Routes = [
   {path:'',component:MainComponent,children:[
     {path:'',component:HomeComponent},
     {path:'material-list',component:MaterialListComponent},
+    {path:'material-list/:id',component:MaterialListComponent},
     {path:'about',component:AboutComponent},
     {path:'donation',component:DonationComponent,canActivate:[DonorCanActivate],children:[
       {path:'',component:MaterialCreationComponent}

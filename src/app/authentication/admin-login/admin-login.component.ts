@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, map, catchError, of } from 'rxjs';
 import { AuthService } from '../Service/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-admin-login',
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class AdminLoginComponent {
 
   loginForm!:FormGroup;
   error!:Error;
@@ -32,20 +32,7 @@ export class LoginComponent implements OnInit{
   }
 
 
-  CheckUsername():AsyncValidatorFn
-  {
-    return (AbstractControl):Observable<ValidationErrors|null> =>{
-      let username = this.loginForm.controls['username'].value;
-      return this.authServ.CheckUsrname(username).pipe(
-        map((data)=>{
-          console.log(data);
-          
-          return data?{nameTaken:true}: null
-        }),
-        catchError(() => of(null))
-      );
-    }
- }
+  
 
  submitForm() {
   //if (this.registerFor) {
@@ -60,7 +47,7 @@ export class LoginComponent implements OnInit{
 
   if(this.loginForm.valid)
   {
-    this.authServ.StudentLogin(info).subscribe((data) => {
+    this.authServ.AdminLogin(info).subscribe((data) => {
       if(data.errors)
       {
         console.log(data.errors[0]);
@@ -79,4 +66,8 @@ export class LoginComponent implements OnInit{
     });
   } 
 }
+
+
+
+
 }

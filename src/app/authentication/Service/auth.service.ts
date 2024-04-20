@@ -6,8 +6,8 @@ import { DonorLoginResponse, StudentLoginResponse } from "../Model/response/logi
 import { AllowAccessResponse } from "../Model/response/allow-access.response";
 import { DonorRegister, StudentRegister } from "../Model/request/register.request";
 import { StudentRegisterResponse } from "../Model/response/register.response";
-import { Observable, map } from "rxjs";
-import { GeneralResponse, classGeneral } from "src/app/share/Model/general.response";
+import { Observable, map, of } from "rxjs";
+import { GeneralResponse } from "src/app/share/Model/general.response";
 
 @Injectable({
     providedIn:'root'
@@ -21,6 +21,7 @@ export class AuthService{
     postStudentRegister:string = 'https://localhost:7081/api/Authentication/StudentRegister'
     postDonorRegister:string = 'https://localhost:7081/api/Authentication/DonorRegister'
     getCheckUsername:string = 'https://localhost:7081/api/Authentication/CheckUsername/'
+    postAdminLogin:string = 'https://localhost:7081/api/Authentication/AdminLogin'
 
 
     user!:UserModel;
@@ -48,8 +49,8 @@ export class AuthService{
 
     StudentLogin(studentInfo:StudentLoginRequest)
     {
-        return this.http.post<StudentLoginResponse|classGeneral>(this.postStudentLogin,studentInfo).pipe(map(data=>{
-            if(data instanceof classGeneral) console.log(data);
+        return this.http.post<GeneralResponse<StudentLoginResponse>>(this.postStudentLogin,studentInfo).pipe(map(data=>{
+            if(data ) console.log(data);
 
             if(data.value)
             {
@@ -57,10 +58,7 @@ export class AuthService{
                 localStorage.setItem('User_Token_Key',data.value.jwtToken)
                 this.token =this.GetToken()
             }
-            if(!(data instanceof classGeneral))
-                return data
-
-                return data
+            return data
         }));
     }
 
@@ -77,10 +75,10 @@ export class AuthService{
 
     DonorLogin(donorInfo:DonorLoginRequest)
     {
-        return this.http.post<DonorLoginResponse|classGeneral>(this.postDonorLogin,donorInfo)
+        return this.http.post<GeneralResponse<DonorLoginResponse>>(this.postDonorLogin,donorInfo)
         .pipe(
-            map((data:DonorLoginResponse) =>{
-            if(data instanceof classGeneral) console.log(data);
+            map((data) =>{
+            if(data) console.log(data);
             
 
 
@@ -90,10 +88,9 @@ export class AuthService{
                 localStorage.setItem('User_Token_Key',data.value.jwtToken)
                 this.token =this.GetToken()
             }
-            if(!(data instanceof classGeneral))
-                return data
 
-                return data
+            return data
+
         })
         );
     }
@@ -108,14 +105,32 @@ export class AuthService{
         }));
     }
 
+    AdminLogin(login:{username:string,password:string})
+    {
+        return this.http.post<GeneralResponse<DonorLoginResponse>>(this.postAdminLogin,login)
+        .pipe(
+            map((data) =>{
+            if(data) console.log(data);
+            
+
+            if(data.value)
+            {
+                this.user = {id:data.value.userId,username:data.value.username,email:'',role:data.value.role,token:data.value.jwtToken}
+                localStorage.setItem('User_Token_Key',data.value.jwtToken)
+                this.token =this.GetToken()
+            }
+                return data
+        })
+        );
+    }
+
 
 
     AllowAccessToken()
     {
-        
-        return this.http.get<AllowAccessResponse>(this.getAllowAccess+this.GetToken());
+        let token = this.GetToken();
+            return this.http.get<AllowAccessResponse>(this.getAllowAccess+this.GetToken());
   
-        
     }
 
     CheckUsrname(username:string)
